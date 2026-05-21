@@ -12,13 +12,6 @@ enum Plan {
   PRO
 }
 
-enum FieldType {
-  TEXT
-  EMAIL
-  TEXTAREA
-  SELECT
-  CHECKBOX
-}
 
 model User {
   id            String    @id @default(cuid())
@@ -76,50 +69,53 @@ model VerificationToken {
 }
 
 model Form {
-  id            String      @id @default(cuid())
+  id          String      @id @default(cuid())
+  title       String
+  description String?
+  status      String      @default("DRAFT")
+  redirectUrl String?
 
-  title         String
-  description   String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 
-  isPublished   Boolean     @default(false)
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
 
-  userId        String
-  user          User        @relation(fields: [userId], references: [id])
-
-  fields        Field[]
-  responses     Response[]
-
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  fields      FormField[]
+  responses   FormResponse[]
 }
 
-model Field {
-  id            String      @id @default(cuid())
+model FormField {
+  id          String    @id @default(cuid())
 
-  label         String
-  placeholder   String?
+  formId      String
+  form        Form      @relation(fields: [formId], references: [id], onDelete: Cascade)
 
-  required      Boolean     @default(false)
+  type        String
+  label       String
+  placeholder String?
+  helperText  String?
+  required    Boolean   @default(false)
+  hidden      Boolean   @default(false)
 
-  type          FieldType
+  options     Json?
 
-  options       Json?
+  order       Int
 
-  order         Int
+  createdAt   DateTime  @default(now())
 
-  formId        String
-  form          Form        @relation(fields: [formId], references: [id])
-
-  createdAt     DateTime    @default(now())
+  @@map("Field")
 }
 
-model Response {
-  id            String      @id @default(cuid())
+model FormResponse {
+  id         String   @id @default(cuid())
 
-  answers       Json
+  formId     String
+  form       Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
 
-  formId        String
-  form          Form        @relation(fields: [formId], references: [id])
+  data       Json     @map("answers")
 
-  submittedAt   DateTime    @default(now())
+  createdAt  DateTime @default(now())
+
+  @@map("Response")
 }

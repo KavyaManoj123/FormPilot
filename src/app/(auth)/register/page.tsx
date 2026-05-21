@@ -48,7 +48,7 @@ export default function RegisterPage() {
       );
 
       router.push("/login");
-    } catch (error) {
+    } catch {
       toast.error("Something went wrong");
     } finally {
       setLoading(false);

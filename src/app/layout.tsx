@@ -1,19 +1,18 @@
-import './globals.css';
-import AuthProvider from '@/providers/session-provider';
-import { Toaster } from 'react-hot-toast';
+import "./globals.css";
+
+import Providers from "@/providers/session-provider";
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body>
-        <AuthProvider>
-          <Toaster />
+        <Providers>
           {children}
-        </AuthProvider>
+        </Providers>
       </body>
     </html>
   );

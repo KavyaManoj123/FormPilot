@@ -1,11 +1,14 @@
 'use client';
 
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+
 import AuthLayout from '@/components/auth/auth-layout';
 
 export default function LoginPage() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const [email, setEmail] = useState('');
@@ -20,14 +23,18 @@ export default function LoginPage() {
       const result = await signIn('credentials', {
         email,
         password,
-        redirect: true,
-        callbackUrl: '/dashboard',
+        redirect: false,
       });
 
       if (result?.error) {
         toast.error('Invalid credentials');
+        return;
       }
-    } catch (error) {
+
+      toast.success('Login successful');
+
+      router.push('/dashboard');
+    } catch {
       toast.error('Something went wrong');
     } finally {
       setLoading(false);
