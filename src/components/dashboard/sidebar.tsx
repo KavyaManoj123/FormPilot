@@ -12,6 +12,7 @@ import {
 import { useSession } from "next-auth/react";
 
 import UpgradePlanButton from "@/components/billing/upgrade-plan-button";
+import FormPilotLogo from "@/components/shared/formpilot-logo";
 import { FREE_PLAN_FORM_LIMIT, type UserPlan } from "@/lib/plans";
 import { cn } from "@/lib/utils";
 
@@ -57,12 +58,12 @@ export default function Sidebar({
   return (
     <aside className="flex w-[272px] flex-col border-r border-white/8 bg-[#111111]">
       <div className="border-b border-white/8 px-6 py-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-zinc-500">
-          FormPilot
-        </p>
-        <h1 className="mt-2 text-2xl font-semibold tracking-[-0.05em] text-white">
-          Build clean forms
-        </h1>
+        <FormPilotLogo
+          subtitle="Workspace"
+          titleClassName="text-2xl font-semibold tracking-[-0.05em] text-white"
+          subtitleClassName="text-xs font-semibold uppercase tracking-[0.28em] text-zinc-500"
+        />
+        <p className="mt-3 text-sm text-zinc-400">Build clean forms</p>
       </div>
 
       <div className="px-4 pt-5">
