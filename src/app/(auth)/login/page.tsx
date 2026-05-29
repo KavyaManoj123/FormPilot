@@ -1,11 +1,13 @@
 'use client';
 
+import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 import AuthLayout from '@/components/auth/auth-layout';
+import GoogleAuthButton from '@/components/auth/google-auth-button';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -43,6 +45,17 @@ export default function LoginPage() {
 
   return (
     <AuthLayout title="Welcome Back" subtitle="Login to your account">
+      <div className="space-y-4">
+        <GoogleAuthButton label="Continue with Google" />
+
+        <div className="flex items-center gap-3">
+          <div className="h-px flex-1 bg-white/10" />
+          <span className="text-xs uppercase tracking-[0.18em] text-gray-500">
+            or continue with email
+          </span>
+          <div className="h-px flex-1 bg-white/10" />
+        </div>
+
       <form onSubmit={handleLogin} className="space-y-3">
         <input
           type="email"
@@ -77,12 +90,13 @@ export default function LoginPage() {
           {loading ? 'Logging in...' : 'Login'}
         </button>
       </form>
+      </div>
 
       <p className="mt-6 text-center text-gray-400">
         Don&apos;t have an account?{' '}
-        <a href="/register" className="text-cyan-400">
+        <Link href="/register" className="text-cyan-400">
           Register
-        </a>
+        </Link>
       </p>
     </AuthLayout>
   );

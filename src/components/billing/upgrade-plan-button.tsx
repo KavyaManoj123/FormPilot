@@ -17,31 +17,54 @@ export default function UpgradePlanButton({
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
+  // const handleUpgrade = async () => {
+  //   setIsLoading(true);
+
+  //   try {
+  //     const response = await fetch("/api/account/upgrade", {
+  //       method: "POST",
+  //     });
+
+  //     const data = await response.json();
+
+  //     if (!response.ok) {
+  //       throw new Error(data.error ?? "Unable to upgrade plan");
+  //     }
+
+  //     toast.success("Your workspace is now on Pro.");
+  //     router.refresh();
+  //   } catch (error) {
+  //     toast.error(
+  //       error instanceof Error ? error.message : "Unable to upgrade plan"
+  //     );
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
   const handleUpgrade = async () => {
-    setIsLoading(true);
+  setIsLoading(true);
 
-    try {
-      const response = await fetch("/api/account/upgrade", {
-        method: "POST",
-      });
+  try {
+    const response = await fetch("/api/stripe/checkout", {
+      method: "POST",
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.error ?? "Unable to upgrade plan");
-      }
-
-      toast.success("Your workspace is now on Pro.");
-      router.refresh();
-    } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Unable to upgrade plan"
-      );
-    } finally {
-      setIsLoading(false);
+    if (!response.ok) {
+      throw new Error(data.error ?? "Unable to upgrade");
     }
-  };
 
+    window.location.href = data.url;
+  } catch (error) {
+    toast.error(
+      error instanceof Error ? error.message : "Something went wrong"
+    );
+  } finally {
+    setIsLoading(false);
+  }
+};
   return (
     <button
       type="button"
