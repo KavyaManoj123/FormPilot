@@ -6,6 +6,7 @@ import {
   CalendarDays,
   CheckCheck,
   CircleArrowOutUpRight,
+  Download,
   FileSpreadsheet,
   Inbox,
   PencilLine,
@@ -38,7 +39,7 @@ function getAnswerPreview(data: Prisma.JsonValue) {
   const preview = asAnswerEntries(data)
     .flatMap(([, value]) => {
       if (Array.isArray(value)) {
-        return value.map((item) => String(item));
+        return value.map(item => String(item));
       }
 
       if (value === null || value === undefined) {
@@ -73,10 +74,10 @@ function getCompletionRate(
     return 100;
   }
 
-  const completedResponses = responses.filter((response) => {
+  const completedResponses = responses.filter(response => {
     const answers = Object.fromEntries(asAnswerEntries(response.data));
 
-    return requiredFieldIds.every((fieldId) => {
+    return requiredFieldIds.every(fieldId => {
       const value = answers[fieldId];
 
       if (Array.isArray(value)) {
@@ -113,7 +114,7 @@ function getInitials(value: string) {
     .split(/\s+/)
     .filter(Boolean)
     .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase() ?? '')
+    .map(part => part[0]?.toUpperCase() ?? '')
     .join('');
 
   return letters || 'RS';
@@ -121,7 +122,9 @@ function getInitials(value: string) {
 
 function formatAnswerValue(value: Prisma.JsonValue) {
   if (Array.isArray(value)) {
-    return value.length > 0 ? value.map((item) => String(item)).join(', ') : 'No selection';
+    return value.length > 0
+      ? value.map(item => String(item)).join(', ')
+      : 'No selection';
   }
 
   if (value === null || value === undefined) {
@@ -176,11 +179,15 @@ export default async function FormResponsesPage({
   }
 
   const selectedResponse = form.responses[0] ?? null;
-  const selectedEntries = selectedResponse ? Object.fromEntries(asAnswerEntries(selectedResponse.data)) : {};
-  const requiredFieldIds = form.fields.filter((field) => field.required && !field.hidden).map((field) => field.id);
+  const selectedEntries = selectedResponse
+    ? Object.fromEntries(asAnswerEntries(selectedResponse.data))
+    : {};
+  const requiredFieldIds = form.fields
+    .filter(field => field.required && !field.hidden)
+    .map(field => field.id);
   const recentWindow = RENDER_TIME - WEEK_IN_MS;
   const responsesThisWeek = form.responses.filter(
-    (response) => response.createdAt.getTime() >= recentWindow
+    response => response.createdAt.getTime() >= recentWindow
   ).length;
   const completionRate = getCompletionRate(form.responses, requiredFieldIds);
   const latestResponse = form.responses[0] ?? null;
@@ -209,7 +216,8 @@ export default async function FormResponsesPage({
               </div>
 
               <p className="mt-2 max-w-2xl text-sm text-zinc-400">
-                Review submissions, inspect answer quality, and track recent collection activity for this form.
+                Review submissions, inspect answer quality, and track recent
+                collection activity for this form.
               </p>
             </div>
 
@@ -254,7 +262,9 @@ export default async function FormResponsesPage({
               <span className="text-4xl font-semibold tracking-[-0.06em] text-emerald-300">
                 {responsesThisWeek}
               </span>
-              <span className="pb-1 text-sm text-emerald-100/70">new replies</span>
+              <span className="pb-1 text-sm text-emerald-100/70">
+                new replies
+              </span>
             </div>
           </div>
 
@@ -266,7 +276,9 @@ export default async function FormResponsesPage({
               <span className="text-4xl font-semibold tracking-[-0.06em] text-white">
                 {completionRate}%
               </span>
-              <span className="pb-1 text-sm text-zinc-400">required fields answered</span>
+              <span className="pb-1 text-sm text-zinc-400">
+                required fields answered
+              </span>
             </div>
           </div>
 
@@ -276,7 +288,9 @@ export default async function FormResponsesPage({
             </p>
             <div className="mt-3 space-y-1">
               <p className="text-lg font-semibold text-white">
-                {latestResponse ? formatRelativeDate(latestResponse.createdAt) : 'No submissions yet'}
+                {latestResponse
+                  ? formatRelativeDate(latestResponse.createdAt)
+                  : 'No submissions yet'}
               </p>
               <p className="text-sm text-amber-100/70">
                 {latestResponse
@@ -293,9 +307,12 @@ export default async function FormResponsesPage({
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl border border-white/8 bg-white/[0.03] text-zinc-500">
             <Inbox size={22} />
           </div>
-          <p className="mt-5 text-xl font-semibold text-white">No responses yet</p>
+          <p className="mt-5 text-xl font-semibold text-white">
+            No responses yet
+          </p>
           <p className="mx-auto mt-2 max-w-md text-sm text-zinc-400">
-            Once people submit this form, their responses will appear here in a review-friendly layout.
+            Once people submit this form, their responses will appear here in a
+            review-friendly layout.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link
@@ -319,16 +336,29 @@ export default async function FormResponsesPage({
         <section className="grid gap-6 xl:grid-cols-[minmax(340px,0.9fr)_minmax(0,1.3fr)]">
           <div className="overflow-hidden rounded-[30px] border border-white/8 bg-[#181818]">
             <div className="border-b border-white/8 px-5 py-5">
-              <div className="flex items-center justify-between gap-3">
+              <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <p className="text-sm font-semibold text-white">Submission queue</p>
+                  <p className="text-sm font-semibold text-white">
+                    Submission queue
+                  </p>
                   <p className="mt-1 text-sm text-zinc-400">
                     Latest responses first, ready for review.
                   </p>
                 </div>
-                <div className="inline-flex items-center gap-2 rounded-full border border-white/8 bg-white/[0.03] px-3 py-1.5 text-xs font-medium text-zinc-300">
-                  <FileSpreadsheet size={14} />
-                  {form.responses.length} total
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-white/8 bg-white/[0.03] px-3 py-1.5 text-xs font-medium text-zinc-300">
+                    <FileSpreadsheet size={14} />
+                    {form.responses.length} total
+                  </div>
+                  <a
+                    href={`/api/forms/${form.id}/responses/export`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex h-11 items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.03] px-4 text-sm font-semibold text-white transition hover:bg-white/[0.06]"
+                  >
+                    <Download size={16} />
+                    Export all
+                  </a>
                 </div>
               </div>
             </div>
@@ -380,6 +410,16 @@ export default async function FormResponsesPage({
                       <p className="mt-3 text-sm leading-6 text-zinc-300">
                         {getAnswerPreview(response.data)}
                       </p>
+
+                      <a
+                        href={`/api/forms/${form.id}/responses/${response.id}/export`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="mt-4 inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.03] px-3 py-2 text-xs font-semibold text-white transition hover:bg-white/[0.06]"
+                      >
+                        <Download size={14} />
+                        Export response
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -406,24 +446,36 @@ export default async function FormResponsesPage({
                   </div>
 
                   <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-zinc-400">
-                    <span>{selectedResponse ? formatRelativeDate(selectedResponse.createdAt) : 'No date'}</span>
+                    <span>
+                      {selectedResponse
+                        ? formatRelativeDate(selectedResponse.createdAt)
+                        : 'No date'}
+                    </span>
                     <span className="h-1 w-1 rounded-full bg-zinc-600" />
-                    <span>{selectedResponse ? getAnswersCount(selectedResponse.data) : 0} fields answered</span>
+                    <span>
+                      {selectedResponse
+                        ? getAnswersCount(selectedResponse.data)
+                        : 0}{' '}
+                      fields answered
+                    </span>
                   </div>
                 </div>
 
-                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">
-                  <Sparkles size={13} />
-                  Latest submission
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">
+                    <Sparkles size={13} />
+                    Latest submission
+                  </div>
                 </div>
               </div>
             </div>
 
             <div className="space-y-4 px-5 py-5 sm:px-6">
-              {form.fields.map((field) => {
+              {form.fields.map(field => {
                 const rawValue = selectedEntries[field.id];
                 const answer = formatAnswerValue(rawValue ?? null);
-                const hasValue = answer !== 'No response' && answer !== 'No selection';
+                const hasValue =
+                  answer !== 'No response' && answer !== 'No selection';
 
                 return (
                   <div
@@ -443,7 +495,9 @@ export default async function FormResponsesPage({
 
                     <div
                       className={
-                        typeof rawValue === 'object' && rawValue !== null && !Array.isArray(rawValue)
+                        typeof rawValue === 'object' &&
+                        rawValue !== null &&
+                        !Array.isArray(rawValue)
                           ? 'mt-3 overflow-x-auto whitespace-pre-wrap break-words rounded-2xl bg-black/20 p-4 text-sm leading-6 text-zinc-200'
                           : 'mt-3 text-sm leading-7 text-zinc-200'
                       }
@@ -452,7 +506,9 @@ export default async function FormResponsesPage({
                     </div>
 
                     {field.helperText ? (
-                      <p className="mt-3 text-xs text-zinc-500">{field.helperText}</p>
+                      <p className="mt-3 text-xs text-zinc-500">
+                        {field.helperText}
+                      </p>
                     ) : !hasValue ? (
                       <p className="mt-3 text-xs text-zinc-500">
                         This respondent skipped the field.
