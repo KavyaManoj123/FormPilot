@@ -1,36 +1,234 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FormPilot
 
-## Getting Started
+Modern SaaS form builder platform built with Next.js, TypeScript, Prisma, and PostgreSQL.
 
-First, run the development server:
+Create forms, collect responses, manage submissions, and analyze form activity through a clean modern dashboard.
+
+---
+
+## Live Demo
+
+https://form-pilot-omega.vercel.app/login
+
+---
+
+# Preview
+
+## Dashboard
+- Workspace overview
+- Form analytics
+- Response tracking
+- Completion statistics
+- Recent submissions
+
+## Features
+- Authentication system
+- Form creation
+- Form management
+- Response collection
+- Dashboard analytics
+- Responsive UI
+- Protected routes
+- Modern SaaS design
+
+---
+
+# Tech Stack
+
+| Technology | Usage |
+|---|---|
+| Next.js 14 | Full-stack framework |
+| TypeScript | Type safety |
+| Tailwind CSS | Styling |
+| Prisma | ORM |
+| PostgreSQL | Database |
+| NextAuth/Auth.js | Authentication |
+| Vercel | Deployment |
+| Lucide React | Icons |
+
+---
+
+# Features
+
+## Authentication
+- Secure login/signup
+- Session handling
+- Protected dashboard routes
+
+## Dashboard
+- Workspace analytics
+- Form statistics
+- Recent responses
+- Activity overview
+
+## Form Management
+- Create forms
+- Edit forms
+- Delete forms
+- Manage responses
+
+## Responses
+- Collect user submissions
+- View recent responses
+- Track completion rates
+
+## UI/UX
+- Modern SaaS dashboard
+- Dark mode interface
+- Responsive layout
+- Clean card system
+- Sidebar navigation
+
+---
+
+# Folder Structure
+
+```bash
+app/
+components/
+lib/
+prisma/
+public/
+types/
+```
+
+---
+
+# Getting Started
+
+## 1. Clone Repository
+
+```bash
+git clone https://github.com/KavyaManoj123/FormPilot.git
+```
+
+---
+
+## 2. Navigate Into Project
+
+```bash
+cd FormPilot
+```
+
+---
+
+## 3. Install Dependencies
+
+```bash
+npm install
+```
+
+---
+
+## 4. Setup Environment Variables
+
+Create `.env` file:
+
+```env
+DATABASE_URL=
+NEXTAUTH_SECRET=
+NEXTAUTH_URL=http://localhost:3000
+```
+
+---
+
+## 5. Prisma Setup
+
+```bash
+npx prisma generate
+npx prisma db push
+```
+
+---
+
+## 6. Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+# Production Build
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Deployment
 
-## Deploy on Vercel
+Deployed using Vercel.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploy Steps
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Push code to GitHub
+2. Import repository into Vercel
+3. Add environment variables
+4. Deploy
+
+---
+
+# Current Modules
+
+- Dashboard
+- Authentication
+- Form listing
+- Response analytics
+- Sidebar navigation
+- Workspace overview
+
+---
+
+# Upcoming Features
+
+- Drag-and-drop form builder
+- Public form sharing
+- AI-generated forms
+- CSV export
+- Stripe subscriptions
+- Team collaboration
+- Charts & analytics
+- Email notifications
+
+---
+
+# Screenshots
+
+## Dashboard UI
+
+(Add your screenshots here)
+
+---
+
+# Learnings From This Project
+
+- Full-stack application architecture
+- Type-safe API handling
+- Prisma database modeling
+- Authentication flow
+- SaaS dashboard design
+- Deployment workflow
+- Production environment handling
+
+---
+
+# Author
+
+Kavya Manoj
+
+GitHub:
+https://github.com/KavyaManoj123
+
+---
+
+# License
+
+MIT License
